@@ -1,1 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Axon | Hall of Fame</title>
+    <style>
+        :root { --axon-blue: #00d4ff; --bg-dark: #050505; }
+        body { background: var(--bg-dark); color: white; font-family: 'Segoe UI', sans-serif; padding: 40px; display: flex; flex-direction: column; align-items: center; }
+        .back-btn { align-self: flex-start; color: var(--axon-blue); text-decoration: none; margin-bottom: 20px; font-weight: bold; }
+        
+        h1 { border-bottom: 2px solid var(--axon-blue); width: 100%; max-width: 800px; padding-bottom: 10px; margin-bottom: 40px; }
+        
+        .protocol-card { 
+            display: flex; 
+            background: rgba(255,255,255,0.03); 
+            border: 1px solid #222; 
+            border-radius: 15px; 
+            width: 100%; 
+            max-width: 800px; 
+            margin-bottom: 30px; 
+            overflow: hidden;
+            transition: 0.3s;
+        }
+        
+        .protocol-card:hover { border-color: var(--axon-blue); background: rgba(0, 212, 255, 0.05); }
 
+        .proto-img { 
+            width: 200px; 
+            height: 200px; 
+            background: #111; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            border-right: 1px solid #222;
+            color: #444;
+            font-size: 0.8rem;
+        }
+
+        .proto-info { padding: 25px; flex: 1; }
+        .proto-name { color: var(--axon-blue); font-size: 1.5rem; font-weight: bold; margin-bottom: 5px; }
+        .proto-type { font-size: 0.7rem; color: #888; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 15px; }
+        .proto-desc { font-size: 0.9rem; line-height: 1.5; color: #ccc; }
+
+        .status-tag { 
+            display: inline-block; 
+            padding: 2px 8px; 
+            border: 1px solid var(--axon-blue); 
+            border-radius: 4px; 
+            font-size: 0.6rem; 
+            margin-top: 10px; 
+        }
+    </style>
+</head>
+<body>
+
+    <a href="index.html" class="back-btn">← RETURN TO CORE</a>
+    
+    <h1>PROTOCOL HALL OF FAME</h1>
+
+    <div class="protocol-card">
+        <div class="proto-img">[PHOTO OF RIGID]</div>
+        <div class="proto-info">
+            <div class="proto-name">RIGID</div>
+            <div class="proto-type">The Overdrive Armor</div>
+            <p class="proto-desc">Built for pure discipline. When the system detects excuses or laziness, RIGID provides the structural support to keep moving. High-impact tactical black finish.</p>
+            <div class="status-tag">STATUS: DEPLOYED</div>
+        </div>
+    </div>
+
+    <div class="protocol-card">
+        <div class="proto-img">[PHOTO OF JOLT]</div>
+        <div class="proto-info">
+            <div class="proto-name">JOLT</div>
+            <div class="proto-type">The Glitch Armor</div>
+            <p class="proto-desc">Designed for creative chaos. When a problem becomes a loop, JOLT breaks the pattern with unpredictable solutions. Neon/Chrome experimental coating.</p>
+            <div class="status-tag">STATUS: ALPHA TESTING</div>
+        </div>
+    </div>
+
+    <div class="protocol-card">
+        <div class="proto-img">[PHOTO OF ZENITH]</div>
+        <div class="proto-info">
+            <div class="proto-name">ZENITH</div>
+            <div class="proto-type">The Clarity Armor</div>
+            <p class="proto-desc">The peak of emotional intelligence. ZENITH stabilizes the core during high-stress environments. Pristine white/silver plating for maximum focus.</p>
+            <div class="status-tag">STATUS: SYSTEM READY</div>
+        </div>
+    </div>
+
+</body>
+</html>
