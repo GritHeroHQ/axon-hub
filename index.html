@@ -36,11 +36,10 @@
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
         import { getDatabase, ref, runTransaction } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
   
-        // YOUR FIREBASE CONFIGURATION WITH CORRECTED DATABASE URL
+        // YOUR FIREBASE CONFIGURATION
         const firebaseConfig = { 
             apiKey: "AIzaSyBWimxqwAoKlLkz0vrFZsZNSzFCu6ZmaDo", 
             authDomain: "axon-command-center.firebaseapp.com", 
-            // FIXED URL: Using the simpler, project-only format
             databaseURL: "https://axon-command-center.firebaseio.com", 
             projectId: "axon-command-center", 
             storageBucket: "axon-command-center.firebasestorage.app", 
@@ -50,36 +49,3 @@
         };
   
         const app = initializeApp(firebaseConfig);
-        const db = getDatabase(app);
-  
-        async function assignRecruitNumber() {
-            // Check if this kid already has a number saved in this browser
-            let savedID = localStorage.getItem('axon_global_id');
-  
-            if (savedID) {
-                showUI(savedID);
-            } else {
-                // If new, use a Transaction to update the global count safely
-                const countRef = ref(db, 'globalCount');
-  
-                runTransaction(countRef, (currentCount) => {
-                    return (currentCount || 0) + 1;
-                }).then((result) => {
-                    const newNumber = result.snapshot.val();
-                    const formattedID = `RC-${newNumber.toString().padStart(3, '0')}`;
-                    localStorage.setItem('axon_global_id', formattedID);
-                    showUI(formattedID);
-                });
-            }
-        }
-  
-        function showUI(id) {
-            document.getElementById('loader').classList.add('hidden');
-            document.getElementById('main-ui').classList.remove('hidden');
-            document.getElementById('recruitDisplay').innerText = id;
-        }
-  
-        assignRecruitNumber();
-    </script>
-</body>
-</html>
