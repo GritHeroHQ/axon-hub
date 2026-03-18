@@ -33,15 +33,15 @@
     </div>
   
     <script type="module">
-        // Using CDN Imports for GitHub Pages
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
         import { getDatabase, ref, runTransaction } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
   
-        // YOUR FIREBASE CONFIGURATION - FIXED
+        // YOUR FIREBASE CONFIGURATION WITH CORRECTED DATABASE URL
         const firebaseConfig = { 
             apiKey: "AIzaSyBWimxqwAoKlLkz0vrFZsZNSzFCu6ZmaDo", 
             authDomain: "axon-command-center.firebaseapp.com", 
-            databaseURL: "https://axon-command-center-default-rtdb.firebaseio.com", 
+            // FIXED URL: Using the simpler, project-only format
+            databaseURL: "https://axon-command-center.firebaseio.com", 
             projectId: "axon-command-center", 
             storageBucket: "axon-command-center.firebasestorage.app", 
             messagingSenderId: "785467628797", 
@@ -51,8 +51,6 @@
   
         const app = initializeApp(firebaseConfig);
         const db = getDatabase(app);
-        // Note: The 'analytics' initialization from your snippet was omitted 
-        // as it is not needed for the recruit number functionality.
   
         async function assignRecruitNumber() {
             // Check if this kid already has a number saved in this browser
@@ -80,3 +78,8 @@
             document.getElementById('main-ui').classList.remove('hidden');
             document.getElementById('recruitDisplay').innerText = id;
         }
+  
+        assignRecruitNumber();
+    </script>
+</body>
+</html>
