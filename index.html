@@ -1,251 +1,82 @@
-``` html
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AXON | Command Center</title>
-    <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;700&family=Inter:wght@400;700&display=swap" rel="stylesheet">
+    <title>AXON | GLOBAL COMMAND</title>
+    <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@600;700&display=swap" rel="stylesheet">
     <style>
-        :root {
-            --deep-space: #1A1A1B;
-            --neon-red: #FF3131;
-            --axon-blue: #00D4FF;
-            --glass-bg: rgba(255, 255, 255, 0.05);
-            --industrial-border: #333;
-        }
+        :root { --ds: #0D0D0E; --red: #FF3131; --blue: #00D4FF; }
+        body { background: var(--ds); color: white; font-family: 'Rajdhani', sans-serif; margin: 0; overflow: hidden; }
+        .wrapper { display: flex; flex-direction: column; height: 100vh; align-items: center; justify-content: center; text-align: center; }
   
-        body {
-            background-color: var(--deep-space);
-            color: white;
-            font-family: 'Inter', sans-serif;
-            margin: 0;
-            overflow-x: hidden;
-            background-image: radial-gradient(circle at 50% 50%, #1a1a1b 0%, #0a0a0a 100%);
-        }
+        /* The "Scanning" Animation */
+        #loader { color: var(--blue); font-size: 1.2rem; letter-spacing: 2px; }
+        .hidden { display: none; }
   
-        h1, h2, h3 {
-            font-family: 'Rajdhani', sans-serif;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-        }
-  
-        /* Layout Container */
-        .dashboard {
-            display: grid;
-            grid-template-columns: 300px 1fr 350px;
-            grid-template-rows: 80px 1fr;
-            height: 100vh;
-            gap: 15px;
-            padding: 15px;
-            box-sizing: border-box;
-        }
-  
-        /* Header */
-        header {
-            grid-column: 1 / -1;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-bottom: 2px solid var(--axon-blue);
-            padding: 0 20px;
-            background: var(--glass-bg);
-            backdrop-filter: blur(10px);
-        }
-  
-        .logo {
-            font-size: 2rem;
-            font-weight: 700;
-            color: var(--axon-blue);
-            text-shadow: 0 0 10px var(--axon-blue);
-        }
-  
-        /* Sidebar: Daily Protocol */
-        .sidebar {
-            background: var(--glass-bg);
-            border: 1px solid var(--industrial-border);
-            padding: 20px;
-            border-radius: 8px;
-            display: flex;
-            flex-direction: column;
-        }
-  
-        .protocol-item {
-            background: rgba(0, 0, 0, 0.3);
-            margin: 10px 0;
-            padding: 15px;
-            border-left: 4px solid var(--neon-red);
-            transition: 0.3s;
-            cursor: pointer;
-        }
-  
-        .protocol-item:hover {
-            background: rgba(255, 49, 49, 0.1);
-        }
-  
-        /* Main Viewport: The 3D Axon & Grit Meter */
-        .main-view {
-            position: relative;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            background: radial-gradient(circle, rgba(0, 212, 255, 0.05) 0%, transparent 70%);
-        }
-  
-        .axon-placeholder {
-            width: 300px;
-            height: 450px;
-            background: url('https://via.placeholder.com/300x450?text=3D+AXON+MODEL') center/cover;
-            border: 1px solid var(--axon-blue);
-            box-shadow: 0 0 30px rgba(0, 212, 255, 0.2);
-            border-radius: 20px;
-        }
-  
-        .grit-meter-container {
-            width: 80%;
-            margin-top: 30px;
-        }
-  
-        .grit-bar {
-            height: 20px;
-            background: #333;
-            border-radius: 10px;
-            overflow: hidden;
-            border: 1px solid var(--axon-blue);
-        }
-  
-        .grit-progress {
-            width: 65%;
-            height: 100%;
-            background: linear-gradient(90deg, var(--axon-blue), #80ebff);
-            box-shadow: 0 0 15px var(--axon-blue);
-        }
-  
-        /* Right Panel: The Pit (Mini Chat) */
-        .pit-preview {
-            background: var(--glass-bg);
-            border: 1px solid var(--industrial-border);
-            border-radius: 8px;
-            display: flex;
-            flex-direction: column;
-            overflow: hidden;
-        }
-  
-        .chat-header {
-            background: var(--neon-red);
-            padding: 10px;
-            font-family: 'Rajdhani';
-            font-weight: bold;
-        }
-  
-        .chat-body {
-            flex-grow: 1;
-            padding: 15px;
-            font-size: 0.9rem;
-            background: rgba(0,0,0,0.4);
-        }
-  
-        .axon-msg {
-            color: var(--axon-blue);
-            margin-bottom: 15px;
-            border-bottom: 1px solid #333;
-            padding-bottom: 5px;
-        }
-  
-        .btn-action {
-            background: transparent;
-            border: 2px solid var(--axon-blue);
-            color: var(--axon-blue);
-            padding: 10px 20px;
-            font-family: 'Rajdhani';
-            font-weight: bold;
-            cursor: pointer;
-            transition: 0.3s;
-            text-align: center;
-            margin-top: 10px;
-        }
-  
-        .btn-action:hover {
-            background: var(--axon-blue);
-            color: black;
-            box-shadow: 0 0 20px var(--axon-blue);
-        }
-  
-        /* UI Accents */
-        .status-light {
-            width: 10px;
-            height: 10px;
-            background: #00ff00;
-            border-radius: 50%;
-            display: inline-block;
-            margin-right: 10px;
-            box-shadow: 0 0 5px #00ff00;
-        }
-  
-        @media (max-width: 1024px) {
-            .dashboard { grid-template-columns: 1fr; grid-template-rows: auto; height: auto; }
-            .sidebar, .pit-preview { margin-bottom: 20px; }
-        }
+        .recruit-id { font-size: 3rem; color: var(--red); text-shadow: 0 0 20px var(--red); margin: 20px 0; }
+        .glow-box { border: 1px solid var(--blue); padding: 40px; background: rgba(0, 212, 255, 0.05); box-shadow: inset 0 0 20px rgba(0, 212, 255, 0.1); }
     </style>
 </head>
 <body>
   
-    <div class="dashboard">
-        <header>
-            <div class="logo">AXON_OS v1.0</div>
-            <div>
-                <span class="status-light"></span> SYSTEM ONLINE | RECRUIT_042
-            </div>
-        </header>
+    <div class="wrapper">
+        <div id="loader">SCANNING BIO-SIGNATURES...</div>
   
-        <aside class="sidebar">
-            <h2>Daily Protocol</h2>
-            <div class="protocol-item">
-                <strong>01. PHYSICAL</strong>
-                <p>10 Pushups. Gravity is the enemy. Defeat it.</p>
+        <div id="main-ui" class="hidden">
+            <div class="glow-box">
+                <div style="color: var(--blue);">IDENTITY CONFIRMED</div>
+                <div class="recruit-id" id="recruitDisplay">RC-000</div>
+                <div style="letter-spacing: 5px;">SQUAD LEADER STATUS: ACTIVE</div>
             </div>
-            <div class="protocol-item">
-                <strong>02. MENTAL</strong>
-                <p>Read 5 pages. Armor your mind.</p>
-            </div>
-            <div class="protocol-item">
-                <strong>03. DISCIPLINE</strong>
-                <p>Make your bed. Win the first battle.</p>
-            </div>
-            <button class="btn-action">VIEW ALL MISSIONS</button>
-        </aside>
-  
-        <main class="main-view">
-            <div class="axon-placeholder"></div>
-            <div class="grit-meter-container">
-                <div style="display: flex; justify-content: space-between; margin-bottom: 5px;">
-                    <span style="font-family: 'Rajdhani';">GRIT LEVEL: 65%</span>
-                    <span style="color: var(--axon-blue);">RANK: SQUAD LEADER</span>
-                </div>
-                <div class="grit-bar">
-                    <div class="grit-progress"></div>
-                </div>
-            </div>
-        </main>
-  
-        <section class="pit-preview">
-            <div class="chat-header">INCOMING TRANSMISSION: THE PIT</div>
-            <div class="chat-body">
-                <div class="axon-msg">
-                    <strong>AXON:</strong> "Status report, soldier. Did you win today or did you learn? Either way, we're getting better. Also, does this plastic armor make my joints look stiff? Don't answer that."
-                </div>
-                <div style="font-style: italic; color: #888;">Waiting for input...</div>
-            </div>
-            <div style="padding: 15px; background: #222;">
-                <input type="text" placeholder="Respond to Axon..." style="width: 100%; background: #111; border: 1px solid #444; color: white; padding: 10px; box-sizing: border-box;">
-                <button class="btn-action" style="width: 100%; border-color: var(--neon-red); color: var(--neon-red);">SEND INTEL</button>
-            </div>
-        </section>
+        </div>
     </div>
   
-</body>
-</html>
-
-```
-       
+    <script type="module">
+        // Using CDN Imports for GitHub Pages
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+        import { getDatabase, ref, runTransaction } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
+  
+        // YOUR FIREBASE CONFIGURATION - FIXED
+        const firebaseConfig = { 
+            apiKey: "AIzaSyBWimxqwAoKlLkz0vrFZsZNSzFCu6ZmaDo", 
+            authDomain: "axon-command-center.firebaseapp.com", 
+            databaseURL: "https://axon-command-center-default-rtdb.firebaseio.com", 
+            projectId: "axon-command-center", 
+            storageBucket: "axon-command-center.firebasestorage.app", 
+            messagingSenderId: "785467628797", 
+            appId: "1:785467628797:web:5d8100a690b89a163bb294", 
+            measurementId: "G-90KXHXFSY6" 
+        };
+  
+        const app = initializeApp(firebaseConfig);
+        const db = getDatabase(app);
+        // Note: The 'analytics' initialization from your snippet was omitted 
+        // as it is not needed for the recruit number functionality.
+  
+        async function assignRecruitNumber() {
+            // Check if this kid already has a number saved in this browser
+            let savedID = localStorage.getItem('axon_global_id');
+  
+            if (savedID) {
+                showUI(savedID);
+            } else {
+                // If new, use a Transaction to update the global count safely
+                const countRef = ref(db, 'globalCount');
+  
+                runTransaction(countRef, (currentCount) => {
+                    return (currentCount || 0) + 1;
+                }).then((result) => {
+                    const newNumber = result.snapshot.val();
+                    const formattedID = `RC-${newNumber.toString().padStart(3, '0')}`;
+                    localStorage.setItem('axon_global_id', formattedID);
+                    showUI(formattedID);
+                });
+            }
+        }
+  
+        function showUI(id) {
+            document.getElementById('loader').classList.add('hidden');
+            document.getElementById('main-ui').classList.remove('hidden');
+            document.getElementById('recruitDisplay').innerText = id;
+        }
