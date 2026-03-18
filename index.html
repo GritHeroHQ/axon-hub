@@ -49,3 +49,49 @@
         };
   
         const app = initializeApp(firebaseConfig);
+        const db = getDatabase(app);
+  
+        async function assignRecruitNumber() {
+            let savedID = localStorage.getItem('axon_global_id');
+  
+            if (savedID) {
+                showUI(savedID);
+            } else {
+                // Use a Transaction to update the global count safely
+                const countRef = ref(db, 'globalCount');
+  
+                runTransaction(countRef, (currentCount) => {
+                    // Check for null/undefined before incrementing
+                    const newValue = (currentCount || 0) + 1;
+                    return newValue;
+                }).then((result) => {
+                    // Only run UI update if the transaction was successful
+                    if (result.committed) {
+                        const newNumber = result.snapshot.val();
+                        const formattedID = `RC-${newNumber.toString().padStart(3, '0')}`;
+                        localStorage.setItem('axon_global_id', formattedID);
+                        showUI(formattedID);
+                    } else {
+                        // Log a fallback for uncommitted transaction
+                        console.error("Firebase transaction failed to commit.");
+                        document.getElementById('loader').innerText = "ERROR: Failed to assign ID.";
+                    }
+                }).catch((error) => {
+                    // Log the error and show a message
+                    console.error("Firebase Connection Error:", error);
+                    document.getElementById('loader').innerText = "ERROR: Connection refused.";
+                });
+            }
+        }
+  
+        function showUI(id) {
+            document.getElementById('loader').classList.add('hidden');
+            document.getElementById('main-ui').classList.remove('hidden');
+            document.getElementById('recruitDisplay').innerText = id;
+        }
+  
+        assignRecruitNumber();
+    </script>
+</body>
+</html>
+             
