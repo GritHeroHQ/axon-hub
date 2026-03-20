@@ -1,163 +1,68 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AXON HQ | GritHeroes</title>
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap');
+<style>
+  body { 
+    background-color: #001100; /* Deep Command Center Green */
+    color: #00ff00; /* Classic Terminal Green */
+    font-family: 'Courier New', Courier, monospace;
+    overflow: hidden;
+  }
 
-        :root {
-            --axon-cyan: #00f2ff;
-            --axon-gold: #ffcc00;
-            --bg-dark: #020205;
-        }
+  /* The "Scanline" Effect - No Functions Needed! */
+  .screen::before {
+    content: " ";
+    display: block;
+    position: absolute;
+    top: 0; left: 0; bottom: 0; right: 0;
+    background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
+    z-index: 2;
+    background-size: 100% 2px, 3px 100%;
+    pointer-events: none;
+  }
 
-        body, html {
-            margin: 0; padding: 0;
-            background: var(--bg-dark);
-            color: var(--axon-cyan);
-            font-family: 'Share Tech Mono', monospace;
-            overflow: hidden; height: 100vh;
-        }
+  .dashboard {
+    border: 2px solid #00ff00;
+    margin: 20px;
+    padding: 20px;
+    height: 90vh;
+  }
 
-        /* --- Deep Space Starfield --- */
-        #universe {
-            position: fixed; top: 0; left: 0; z-index: -1;
-        }
+  .mentor {
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    width: 250px; /* Placeholder for your Dummy 13 Photo */
+  }
 
-        /* --- HQ Interface Layout --- */
-        .hq-container {
-            display: flex; justify-content: center; align-items: center;
-            height: 100vh; perspective: 1000px;
-        }
-
-        /* --- The Central Axon Hub --- */
-        .axon-core {
-            position: relative; width: 150px; height: 150px;
-            border: 2px solid var(--axon-cyan);
-            border-radius: 50%;
-            display: flex; justify-content: center; align-items: center;
-            box-shadow: 0 0 30px var(--axon-cyan), inset 0 0 20px var(--axon-cyan);
-            animation: core-pulse 3s infinite ease-in-out;
-            z-index: 5;
-        }
-
-        .axon-core::after {
-            content: "HQ"; font-size: 2rem; font-weight: bold;
-            text-shadow: 0 0 10px var(--axon-cyan);
-        }
-
-        /* --- Orbital Navigation --- */
-        .orbit-system {
-            position: absolute; width: 600px; height: 600px;
-            animation: rotateSystem 60s linear infinite;
-        }
-
-        .node {
-            position: absolute; width: 90px; height: 90px;
-            background: rgba(0, 242, 255, 0.05);
-            border: 1px solid var(--axon-cyan);
-            border-radius: 12px;
-            display: flex; flex-direction: column;
-            justify-content: center; align-items: center;
-            text-decoration: none; color: var(--axon-cyan);
-            transition: 0.3s; backdrop-filter: blur(8px);
-        }
-
-        .node span { 
-            font-size: 0.75rem; margin-top: 5px; 
-            animation: counterRotate 60s linear infinite;
-        }
-
-        .node:hover {
-            background: var(--axon-cyan); color: black;
-            box-shadow: 0 0 40px var(--axon-cyan);
-            transform: scale(1.1);
-        }
-
-        /* Position Nodes based on your screenshot files */
-        .n-academy { top: 0%; left: 50%; transform: translate(-50%, -50%); }
-        .n-chat    { top: 25%; left: 93%; transform: translate(-50%, -50%); }
-        .n-hall    { top: 75%; left: 93%; transform: translate(-50%, -50%); }
-        .n-news    { top: 100%; left: 50%; transform: translate(-50%, -50%); }
-        .n-shop    { top: 75%; left: 7%; transform: translate(-50%, -50%); }
-        .n-index   { top: 25%; left: 7%; transform: translate(-50%, -50%); }
-
-        /* --- Scanning Line Effect --- */
-        .scanline {
-            position: absolute; width: 100%; height: 2px;
-            background: rgba(0, 242, 255, 0.2);
-            top: 0; animation: scan 4s linear infinite;
-            z-index: 10; pointer-events: none;
-        }
-
-        /* --- Animations --- */
-        @keyframes rotateSystem { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
-        @keyframes counterRotate { from { transform: rotate(0deg); } to { transform: rotate(-360deg); } }
-        @keyframes core-pulse { 0%, 100% { opacity: 0.8; transform: scale(1); } 50% { opacity: 1; transform: scale(1.05); } }
-        @keyframes scan { 0% { top: 0; } 100% { top: 100%; } }
-
-    </style>
+  .mission-box {
+    border: 1px dashed #00ff00;
+    padding: 10px;
+    margin-top: 20px;
+  }
+</style>
 </head>
-<body>
+<body class="screen">
 
-    <div class="scanline"></div>
-    <canvas id="universe"></canvas>
+<div class="dashboard">
+  <h1>[ GRITHEROUS MISSION CONTROL ]</h1>
+  <hr>
+  
+  <h3>> UPLINK STATUS: ONLINE</h3>
+  <h3>> MENTOR: DUMMY 13</h3>
 
-    <div class="hq-container">
-        <div class="axon-core"></div>
+  <div class="mission-box">
+    <h2>CURRENT MISSION:</h2>
+    <p>Build a shelter for a Gritherous scout using only 5 items from your kitchen.</p>
+  </div>
 
-        <div class="orbit-system">
-            <a href="academy.html" class="node n-academy"><span>ACADEMY</span></a>
-            <a href="chat.html" class="node n-chat"><span>CHAT</span></a>
-            <a href="hall.html" class="node n-hall"><span>HALL</span></a>
-            <a href="news.html" class="node n-news"><span>NEWS</span></a>
-            <a href="shop.html" class="node n-shop"><span>SHOP</span></a>
-            <a href="index.html" class="node n-index"><span>HOME</span></a>
-        </div>
-    </div>
+  <div class="mission-box">
+    <h2>JOKE OF THE DAY:</h2>
+    <p>Why did the Dummy 13 cross the road? Because his joints were programmed to move that way!</p>
+  </div>
 
-    <script>
-        const canvas = document.getElementById('universe');
-        const ctx = canvas.getContext('2d');
-        let stars = [];
+  <img src="dummy13.png" alt="Mentor" class="mentor">
+</div>
 
-        function init() {
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
-            for(let i=0; i<150; i++) stars.push({
-                x: Math.random()*canvas.width, 
-                y: Math.random()*canvas.height, 
-                s: Math.random()*2,
-                v: Math.random()*0.5
-            });
-        }
-
-        function draw() {
-            ctx.clearRect(0,0,canvas.width, canvas.height);
-            ctx.fillStyle = "#fff";
-            stars.forEach(s => {
-                ctx.beginPath();
-                ctx.arc(s.x, s.y, s.s, 0, Math.PI*2);
-                ctx.fill();
-                s.y += s.v;
-                if(s.y > canvas.height) s.y = 0;
-            });
-            // Random Shooting Star
-            if(Math.random() > 0.98) {
-                ctx.strokeStyle = "white";
-                ctx.lineWidth = 2;
-                ctx.beginPath();
-                let rx = Math.random()*canvas.width;
-                ctx.moveTo(rx, 0); ctx.lineTo(rx+100, 100);
-                ctx.stroke();
-            }
-            requestAnimationFrame(draw);
-        }
-
-        window.addEventListener('resize', () => { canvas.width = window.innerWidth; canvas.height = window.innerHeight; });
-        init(); draw();
-    </script>
 </body>
 </html>
