@@ -1,68 +1,124 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<style>
-  body { 
-    background-color: #001100; /* Deep Command Center Green */
-    color: #00ff00; /* Classic Terminal Green */
-    font-family: 'Courier New', Courier, monospace;
-    overflow: hidden;
-  }
-
-  /* The "Scanline" Effect - No Functions Needed! */
-  .screen::before {
-    content: " ";
-    display: block;
-    position: absolute;
-    top: 0; left: 0; bottom: 0; right: 0;
-    background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
-    z-index: 2;
-    background-size: 100% 2px, 3px 100%;
-    pointer-events: none;
-  }
-
-  .dashboard {
-    border: 2px solid #00ff00;
-    margin: 20px;
-    padding: 20px;
-    height: 90vh;
-  }
-
-  .mentor {
-    position: absolute;
-    bottom: 10px;
-    right: 10px;
-    width: 250px; /* Placeholder for your Dummy 13 Photo */
-  }
-
-  .mission-box {
-    border: 1px dashed #00ff00;
-    padding: 10px;
-    margin-top: 20px;
-  }
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SQUAD 3D | GRIT HEROES VIP</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@900&display=swap');
+        .beast-font { font-family: 'Inter', sans-serif; text-transform: uppercase; italic; }
+        .glitch-border { border: 4px solid; animation: border-pulse 2s infinite; }
+        @keyframes border-pulse { 0% { border-color: #ef4444; } 50% { border-color: #3b82f6; } 100% { border-color: #ef4444; } }
+    </style>
 </head>
-<body class="screen">
+<body class="bg-black text-white selection:bg-yellow-400 selection:text-black">
 
-<div class="dashboard">
-  <h1>[ GRITHEROUS MISSION CONTROL ]</h1>
-  <hr>
-  
-  <h3>> UPLINK STATUS: ONLINE</h3>
-  <h3>> MENTOR: DUMMY 13</h3>
+    <div class="max-w-4xl mx-auto px-6 py-12 min-h-screen flex flex-col items-center justify-center">
+        
+        <div class="text-center mb-12">
+            <h1 class="beast-font text-6xl md:text-8xl italic tracking-tighter text-transparent bg-clip-text bg-gradient-to-br from-red-600 via-blue-500 to-purple-600">
+                SQUAD 3D
+            </h1>
+            <p class="text-xs tracking-[0.5em] font-black opacity-60 mt-4 uppercase">Neural Link // Victoria Forge</p>
+        </div>
 
-  <div class="mission-box">
-    <h2>CURRENT MISSION:</h2>
-    <p>Build a shelter for a Gritherous scout using only 5 items from your kitchen.</p>
-  </div>
+        <div id="setup-section" class="w-full max-w-md bg-zinc-900 p-8 glitch-border text-center">
+            <h2 class="beast-font text-2xl mb-6 text-yellow-500">Link Your Brain</h2>
+            <input type="password" id="api-key" placeholder="PASTE GEMINI API KEY HERE" 
+                   class="w-full bg-black border-2 border-zinc-800 p-4 font-mono text-center text-xs focus:border-white outline-none mb-4">
+            <button onclick="activateLink()" class="w-full bg-white text-black font-black p-4 hover:bg-yellow-400 transition-all uppercase italic">
+                Establish Connection
+            </button>
+            <p class="text-[9px] mt-4 opacity-40 italic uppercase leading-tight">
+                *Uses Gemini Free Tier. Your key is not stored.*
+            </p>
+        </div>
 
-  <div class="mission-box">
-    <h2>JOKE OF THE DAY:</h2>
-    <p>Why did the Dummy 13 cross the road? Because his joints were programmed to move that way!</p>
-  </div>
+        <div id="mentor-section" class="hidden w-full space-y-12">
+            <div class="flex flex-wrap justify-center gap-4 mb-10">
+                <button onclick="setMentor('military')" class="bg-red-700 px-6 py-2 font-black border-2 border-white hover:bg-white hover:text-red-700 transition">RED (COMMANDER)</button>
+                <button onclick="setMentor('funny')" class="bg-purple-700 px-6 py-2 font-black border-2 border-white hover:bg-white hover:text-purple-700 transition">PURPLE (GLITCH)</button>
+                <button onclick="setMentor('guardian')" class="bg-blue-700 px-6 py-2 font-black border-2 border-white hover:bg-white hover:text-blue-700 transition">BLUE (GUARDIAN)</button>
+            </div>
 
-  <img src="dummy13.png" alt="Mentor" class="mentor">
-</div>
+            <div class="bg-zinc-900 border-2 border-zinc-800 p-6 rounded-lg shadow-2xl">
+                <div id="chat-box" class="h-64 overflow-y-auto mb-6 p-4 font-mono text-sm space-y-4 bg-black border border-zinc-800">
+                    <div class="text-zinc-500 italic">[ NEURAL LINK ACTIVE. WAITING FOR INPUT... ]</div>
+                </div>
+                
+                <div class="flex gap-2">
+                    <input type="text" id="user-input" placeholder="Type your message, Hero..." 
+                           class="flex-1 bg-black border border-zinc-700 p-4 font-bold outline-none focus:border-blue-500">
+                    <button onclick="sendToAI()" class="bg-white text-black px-8 font-black uppercase italic hover:bg-blue-500 hover:text-white transition-all">Send</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
+    <script>
+        let currentPersona = "guardian";
+        let userKey = "";
+
+        const prompts = {
+            military: "You are COMMANDER AXON. Be short, blunt, and military. Focus on GRIT and TOTAL OWNERSHIP. Do not talk about 3D printing. If the user complains, tell them to RECALIBRATE. End with 'COPY?'",
+            funny: "You are THE GLITCH. You are a hilarious, sarcastic robot. Use emojis like 🤖🍝. Tell 3D printing jokes. Be high energy. End with a silly mission.",
+            guardian: "You are THE GUARDIAN. Be calm, wise, and supportive. Use 'Kind Hard' logic. Talk about layers of resilience. End with a reflection question."
+        };
+
+        function activateLink() {
+            userKey = document.getElementById('api-key').value;
+            if (key.length < 10) return alert("Invalid Key!");
+            document.getElementById('setup-section').classList.add('hidden');
+            document.getElementById('mentor-section').classList.remove('hidden');
+        }
+
+        function setMentor(m) {
+            currentPersona = m;
+            addMessage("SYSTEM", `MENTOR SWITCHED TO: ${m.toUpperCase()}`);
+        }
+
+        async function sendToAI() {
+            const inputField = document.getElementById('user-input');
+            const message = inputField.value;
+            if (!message) return;
+
+            addMessage("YOU", message);
+            inputField.value = "";
+
+            try {
+                const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${userKey}`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        contents: [{ parts: [{ text: `SYSTEM_PROMPT: ${prompts[currentPersona]} USER_MESSAGE: ${message}` }] }]
+                    })
+                });
+                const data = await response.json();
+                const reply = data.candidates[0].content.parts[0].text;
+                
+                addMessage("AXON", reply);
+                speak(reply);
+            } catch (e) {
+                addMessage("SYSTEM", "CONNECTION ERROR. CHECK YOUR API KEY.");
+            }
+        }
+
+        function addMessage(who, text) {
+            const box = document.getElementById('chat-box');
+            const msg = document.createElement('div');
+            msg.innerHTML = `<span class="font-black ${who==='AXON'?'text-blue-500':'text-yellow-500'}">${who}:</span> ${text}`;
+            box.appendChild(msg);
+            box.scrollTop = box.scrollHeight;
+        }
+
+        function speak(text) {
+            const speech = new SpeechSynthesisUtterance(text);
+            speech.pitch = currentPersona === 'military' ? 0.6 : (currentPersona === 'funny' ? 1.8 : 1.0);
+            speech.rate = 1.0;
+            window.speechSynthesis.speak(speech);
+        }
+    </script>
 </body>
 </html>
+ 
